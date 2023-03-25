@@ -8,7 +8,7 @@ import (
 )
 
 type Database struct {
-	*sql.DB
+	DB *sql.DB
 }
 
 func NewDatabase(dsn string) (*Database, error) {
@@ -25,4 +25,3 @@ func NewDatabase(dsn string) (*Database, error) {
 	return &Database{db}, nil
 }
 
-// TODO: Add a function for creating a new course in the database

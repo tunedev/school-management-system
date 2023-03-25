@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Connect to database
-	db, err := database.NewDatabase(cfg.DSN())
+	migration, err := database.NewDatabase(cfg.DSN())
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
@@ -39,7 +39,7 @@ func main() {
 			log.Fatalf("failed to read migration script %s: %v", file, err)
 		}
 		
-		_, err = db.Exec(string(script))
+		_, err = migration.DB.Exec(string(script))
 		if err != nil {
 			log.Fatalf("failed to run migration script %s: %v", file, err)
 		}

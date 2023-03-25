@@ -15,10 +15,12 @@ COPY . .
 
 # Build the Go application for Linux/amd64
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
-RUN go build -o main cmd/server/main.go
+RUN go build -o main ./cmd/server/.
 
 # Use a minimal Docker image to run the Go application
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 COPY --from=build /app/main /main
+COPY --from=build /app/.env .
+
 CMD ["/main"]

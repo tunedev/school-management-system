@@ -18,7 +18,7 @@ func main() {
 	fmt.Println("NA THE ENV BE THIS OOH =====>>>>",cfg.DSN())
 
 	// Connect to database
-	_, err = database.NewDatabase(cfg.DSN())
+	db, err := database.NewDatabase(cfg.DSN())
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
@@ -32,6 +32,13 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Welcome to the School Management System API"})
 	})
+
+	// Add routers
+	router := setupRouter(db)
+	err = router.Run()
+	if err != nil {
+		log.Fatalf("failed to start server: %v", err)
+	}
 
 	// Start server
 	err = r.Run(":8080")
